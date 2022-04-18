@@ -22,6 +22,14 @@ public class UserView {
             }
             System.out.println("ENTER THE USERNAME: ");
             String name = scanner.nextLine();
+            if (userList.size() != 0) {
+                for (int i = 0; i < userList.size(); i++) {
+                    if (name.equalsIgnoreCase(userList.get(i).getUsername())) {
+                        System.out.println("USERNAME IS ALREADY!! TRY AGAIN!!");
+                        new UserView().formCreateUser();
+                    }
+                }
+            }
             System.out.println("ENTER THE PASSWORD: ");
             String password = scanner.nextLine();
             System.out.println("ENTER THE ROLE: ");
@@ -46,6 +54,48 @@ public class UserView {
             System.out.println("YOUR USERNAME IS: " + name);
             System.out.println("YOUR PASSWORD IS: " + password);
             new Main();
+        }
+    }
+
+    public void changePassword(String username, int id, Role.RoleNameUser roleNameUser) {
+        while (true) {
+            System.out.println("ENTER NEW PASSWORD: ");
+            String newPassword = scanner.nextLine();
+            UserController userController = new UserController();
+            userController.changePassword(id, newPassword);
+            System.out.println("SUCCESSFULLY CHANGE PASSWORD!!!");
+            System.out.println("NEW PASSWORD: " + userController.findById(id).getPassword());
+            System.out.println("=========================================");
+            System.out.println("ENTER ANY KEY TO CONTINUE CHANGE PASSWORD OR ENTER QUIT TO COMEBACK MENU: ");
+            String backMenu = scanner.nextLine();
+            if (backMenu.equalsIgnoreCase("quit")) {
+                new Main(username, id, roleNameUser);
+            }
+        }
+    }
+
+    public void rechagreAccount(String username, int id, Role.RoleNameUser roleNameUser) {
+        System.err.println("CHƯA LÀM!!!");
+        new Main();
+    }
+
+    public void accountManagement(String username, int id, Role.RoleNameUser roleNameUser) {
+        while (true) {
+            System.out.println("======== ACCOUNT MANAGEMENT ========");
+            System.out.println("| USER_NAME | : | " + username + " |");
+            System.out.println("| ID | : | " + id + " |");
+            System.out.println("| ROLE | : | " + roleNameUser + " |");
+            System.out.println("1. CHANGE PASSWORD");
+            System.out.println("2. RECHARGE ACCOUNT");
+            String choose = scanner.nextLine();
+            switch (choose) {
+                case "1":
+                    new UserView().changePassword(username, id, roleNameUser);
+                    break;
+                case "2":
+                    new UserView().rechagreAccount(username, id, roleNameUser);
+                    break;
+            }
         }
     }
 

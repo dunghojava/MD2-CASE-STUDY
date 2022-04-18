@@ -7,6 +7,7 @@ public class User implements Serializable {
     private String username;
     private String password;
     private Role.RoleNameUser role;
+    private double point;
 
     public User() {
     }
@@ -24,6 +25,14 @@ public class User implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public double getPoint() {
+        return point;
+    }
+
+    public void setPoint(double point) {
+        this.point = point;
     }
 
     public String getUsername() {

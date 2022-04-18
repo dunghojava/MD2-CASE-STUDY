@@ -12,6 +12,11 @@ public class UserController {
         return userServiceIMPL.findAll();
     }
 
+    public User changePassword(int id, String password) {
+        userServiceIMPL.findById(id).setPassword(password);
+        return  userServiceIMPL.findById(id);
+    }
+
     public void createUser(User user){
         userServiceIMPL.save(user);
     }

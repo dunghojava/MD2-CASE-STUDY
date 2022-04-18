@@ -99,6 +99,14 @@ public class Main {
                     new Main(username, id, role);
                 }
                 break;
+            case 8:
+                if (role.equals(Role.RoleNameUser.ADMIN)) {
+                    new UserView().accountManagement(username, id, role);
+                } else {
+                    System.out.println("CHƯA LÊN ADMIN THÌ CHƯA CÓ TUỔI!!");
+                    new Main(username, id, role);
+                }
+                break;
             case 9:
                 if (role.equals(Role.RoleNameUser.ADMIN)) {
                     new ComputerView().checkTotalBill(username, id, role);

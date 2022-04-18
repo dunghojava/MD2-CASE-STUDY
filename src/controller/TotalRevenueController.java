@@ -11,8 +11,4 @@ public class TotalRevenueController {
     public List<Revenue> showListRevenue() {
         return totalRevenueIMPL.findAll();
     }
-
-    public Revenue findById(int id) {
-       return null;
-    }
 }

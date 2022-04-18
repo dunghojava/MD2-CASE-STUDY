@@ -1,7 +1,7 @@
 package view;
 
 import controller.ComputerController;
-import controller.FoodController;
+
 import controller.TotalRevenueController;
 import model.Computer;
 import model.Food;
@@ -20,7 +20,6 @@ public class ComputerView {
     ComputerController computerController = new ComputerController();
     List<Computer> computerList = ComputerServiceIMPL.computers;
     List<Food> foodList = FoodServiceIMPL.foods;
-    List<Revenue> revenueList = TotalRevenueIMPL.revenues;
     TotalRevenueIMPL totalRevenueIMPL = new TotalRevenueIMPL();
 
     public void formCreateComputer(String username, int id, Role.RoleNameUser role) {
@@ -55,7 +54,7 @@ public class ComputerView {
             computerController.createComputer(computer);
             System.out.println("YOU HAVE CREATE SUCCESSFULLY " + computer);
             System.out.println("=========================================");
-            System.out.println("ENTER ANY KEY TO CONTINUE CREATE COMPUTER OR ENTER QUIT TO COMBACK MENU: ");
+            System.out.println("ENTER ANY KEY TO CONTINUE CREATE COMPUTER OR ENTER QUIT TO COMEBACK MENU: ");
             String backMenu = scanner.nextLine();
             if (backMenu.equalsIgnoreCase("quit")) {
                 new Main(username, id, role);
@@ -318,7 +317,7 @@ public class ComputerView {
                 System.out.println(" ================================= ");
             }
             System.out.println("=========================================");
-            System.out.println("ENTER ANY KEY TO CONTINUE CREATE COMPUTER OR ENTER QUIT TO COMBACK MENU: ");
+            System.out.println("ENTER ANY KEY TO CONTINUE CREATE COMPUTER OR ENTER QUIT TO COMEBACK MENU: ");
             String backMenu = scanner.nextLine();
             if (backMenu.equalsIgnoreCase("quit")) {
                 new Main(username, id, role);
