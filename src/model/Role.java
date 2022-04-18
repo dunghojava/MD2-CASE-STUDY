@@ -7,7 +7,7 @@ public class Role implements Serializable {
         ADMIN, USER;
     }
     public enum RoleNameComputer {
-        NORMAL(10000000), VIP(20000000);
+        NORMAL(1000000), VIP(2000000);
 
         private double value;
 

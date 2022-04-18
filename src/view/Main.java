@@ -5,19 +5,26 @@ public class Main {
     Scanner scanner = new Scanner(System.in);
 
     public Main() {
-        System.out.println("========= QUÁN NET =========");
-        System.out.println("1. REGISTER");
-        System.out.println("============================");
-        System.out.println("2. LOGIN");
-        System.out.println("============================");
-        int chooseMenu = scanner.nextInt();
-        switch (chooseMenu) {
-            case 1:
-                new UserView().formCreateUser();
-                break;
-            case 2:
-                new UserView().formLoginUser();
-                break;
+        String chooseMenu = "";
+        boolean check = true;
+        while (check) {
+            System.out.println("========= QUÁN NET =========");
+            System.out.println("1. REGISTER");
+            System.out.println("============================");
+            System.out.println("2. LOGIN");
+            System.out.println("============================");
+            chooseMenu = scanner.nextLine();
+            switch (chooseMenu) {
+                case "1":
+                    new UserView().formCreateUser();
+                    check = false;
+                    break;
+                case "2":
+                    new UserView().formLoginUser();
+                    check = false;
+                    break;
+            }
+            System.out.println("SOMETHING WRONG!! TRY AGAIN!!");
         }
     }
 

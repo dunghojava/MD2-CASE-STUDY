@@ -2,11 +2,14 @@ package view;
 
 import controller.ComputerController;
 import controller.FoodController;
+import controller.TotalRevenueController;
 import model.Computer;
 import model.Food;
+import model.Revenue;
 import model.Role;
 import service.computer.ComputerServiceIMPL;
 import service.food.FoodServiceIMPL;
+import service.totalRevenue.TotalRevenueIMPL;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,8 @@ public class ComputerView {
     ComputerController computerController = new ComputerController();
     List<Computer> computerList = ComputerServiceIMPL.computers;
     List<Food> foodList = FoodServiceIMPL.foods;
+    List<Revenue> revenueList = TotalRevenueIMPL.revenues;
+    TotalRevenueIMPL totalRevenueIMPL = new TotalRevenueIMPL();
 
     public void formCreateComputer(String username, int id, Role.RoleNameUser role) {
         while (true) {
@@ -100,13 +105,25 @@ public class ComputerView {
                 new Main(username, id, roleNameUser);
             } else {
                 Double bill = computerController.findById(idComputer).checkTotalPrice();
+                double time = 0;
+                double totalPriceComputer = 0;
                 if (computerController.findById(idComputer).getStatus() == true) {
-                    System.out.println("SERVICES BILL: " + computerController.findById(idComputer).getName() + " : " + bill + "VND");
+                    System.out.println("SERVICES BILL " + computerController.findById(idComputer).getName().toUpperCase() + " : " + bill + "VND");
+                    computerController.findById(idComputer).setStatus(false);
+                    time = (computerController.findById(idComputer).getEndTime() - computerController.findById(idComputer).getStartTime()) / Math.pow(10, 9);
+                    totalPriceComputer = Math.ceil(bill + time * computerController.findById(idComputer).getRole().getRoleNameComputer() / 3600);
+                    System.out.println("TOTAL BILL = " + totalPriceComputer + "VND");
+                    System.out.println("USED TIME: " + Math.ceil(time) + "s ");
                 } else if (computerController.findById(idComputer).getEndTime() > computerController.findById(idComputer).getStartTime()) {
-                    double time = (computerController.findById(idComputer).getEndTime() - computerController.findById(idComputer).getStartTime()) / Math.pow(10, 9);
-                    double totalPrice = Math.ceil(bill + time * computerController.findById(idComputer).getRole().getRoleNameComputer() / 3600);
-                    System.out.println("TOTAL BILL = " + totalPrice + "VND");
+                    time = (computerController.findById(idComputer).getEndTime() - computerController.findById(idComputer).getStartTime()) / Math.pow(10, 9);
+                    totalPriceComputer = Math.ceil(bill + time * computerController.findById(idComputer).getRole().getRoleNameComputer() / 3600);
+                    System.out.println("TOTAL BILL = " + totalPriceComputer + "VND");
                 }
+                computerController.findById(idComputer).setFoodList(null);
+                computerController.findById(idComputer).setStartTime(0);
+                computerController.findById(idComputer).setEndTime(0);
+                Revenue revenue = new Revenue(totalPriceComputer, computerController.findById(idComputer).getName());
+                totalRevenueIMPL.save(revenue);
             }
             System.out.println("=========================================");
             System.out.println("ENTER ANY KEY TO CONTINUE CHECK BILL OR ENTER QUIT TO COMEBACK MENU: ");
@@ -118,8 +135,14 @@ public class ComputerView {
     }
 
     public void checkTotalBill(String username, int id, Role.RoleNameUser roleNameUser) {
+        double totalBill = 0;
+        TotalRevenueController totalRevenueController = new TotalRevenueController();
         while (true) {
-            double totalBill = 0;
+            for (int i = 0; i < totalRevenueIMPL.findAll().size(); i++) {
+                System.out.println("check total price =====>> " + totalRevenueIMPL.findAll().get(i));
+                totalBill += totalRevenueController.showListRevenue().get(i).getPrice();
+            }
+            System.out.println("TOTAL REVENUE = " + totalBill);
 
             System.out.println("=========================================");
             System.out.println("ENTER ANY KEY TO CONTINUE OR ENTER QUIT TO COMEBACK MENU: ");
@@ -140,7 +163,6 @@ public class ComputerView {
     }
 
     public void addServiceComputer(String username, int id, Role.RoleNameUser roleNameUser) {
-        FoodController foodController = new FoodController();
         while (true) {
             System.out.println("ENTER THE ID COMPUTER TO ADD SERVICE");
             int idComputer = scanner.nextInt();
@@ -158,7 +180,7 @@ public class ComputerView {
             if (countIdComputer == 0) {
                 System.out.println("NO ID IN THE LIST");
                 new Main(username, id, roleNameUser);
-            } else if (computerController.findById(idComputer).getStatus()){
+            } else if (computerController.findById(idComputer).getStatus()) {
                 String checkAnswer = "";
                 String checkAnswer2 = "";
                 System.out.println("ENTER THE NAME FOOD TO ADD SERVICE TO: " + computerList.get(idValue).toString());

@@ -103,6 +103,14 @@ public class Computer implements Serializable {
         }
     }
 
+    public void setStartTime(double startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(double endTime) {
+        this.endTime = endTime;
+    }
+
     public double checkTotalPrice() {
         double sum = 0;
         if (this.foodList == null && checkPriceTime() == 0) {
@@ -117,12 +125,12 @@ public class Computer implements Serializable {
 
     @Override
     public String toString() {
-        return '\n' + "Computer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", status=" + status +
-                ", foodList=" + foodList +
-                ", role=" + role +
+        return '\n' + "Computer {" +
+                "id = " + id +
+                ", name = '" + name + '\'' +
+                ", status = " + status +
+                ", foodList = " + foodList +
+                ", role = " + role +
                 '}';
     }
 
