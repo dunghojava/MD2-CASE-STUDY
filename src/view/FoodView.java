@@ -6,6 +6,7 @@ import model.Role;
 import service.food.FoodServiceIMPL;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -58,9 +59,15 @@ public class FoodView {
                         }
                     }
                 } while (nameFood.equalsIgnoreCase(foodList.get(idValue).getName()));
-                System.out.println("ENTER THE PRICE OF FOOD: ");
-                int price = scanner.nextInt();
-                scanner.nextLine();
+                int price = 0;
+                while (price == 0) {
+                    try {
+                        System.out.println("ENTER THE PRICE OF FOOD: ");
+                        price = Integer.parseInt(scanner.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.err.println("SOMETHING WRONG!! TRY AGAIN!!");
+                    }
+                }
                 Food food = new Food(idFood, nameFood, price);
                 foodController.createFood(food);
                 System.out.println("YOU HAVE CREATE SUCCESSFULLY: " + food);

@@ -46,8 +46,8 @@ public class ComputerView {
                     roleNameComputer = Role.RoleNameComputer.VIP;
                     checkRole = false;
                 } else {
-                    System.out.println("PLEASE CHOOSE ROLE FOR COMPUTER");
-                    System.out.println("===============================");
+                    System.err.println("PLEASE CHOOSE ROLE FOR COMPUTER");
+                    System.err.println("===============================");
                 }
             }
             Computer computer = new Computer(idComputer, name, roleNameComputer);
@@ -80,7 +80,7 @@ public class ComputerView {
                     } else if (setStatus.equalsIgnoreCase("off") && computerController.findById(idComputer).getStatus() == true) {
                         computerController.findById(idComputer).setStatus(false);
                     } else {
-                        System.out.println("SOMETHING WRONG!! TRY AGAIN!!");
+                        System.err.println("SOMETHING WRONG!! TRY AGAIN!!");
                     }
                 } while (!setStatus.equalsIgnoreCase("on") && !setStatus.equalsIgnoreCase("off"));
             }
@@ -96,10 +96,15 @@ public class ComputerView {
     public void checkBill(String username, int id, Role.RoleNameUser roleNameUser) {
         while (true) {
             System.out.println("ENTER COMPUTER'S ID YOU WANT TO CHECK");
-            int idComputer = scanner.nextInt();
-            scanner.nextLine();
+            int idComputer = 0;
+            try {
+                idComputer = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.err.println("SOMETHING WRONG!! TRY AGAIN!!");
+                checkBill(username, id, roleNameUser);
+            }
             if (computerController.findById(idComputer) == null) {
-                System.out.println("NO ID IN THE LIST");
+                System.err.println("NO ID IN THE LIST");
                 new Main(username, id, roleNameUser);
             } else {
                 Double bill = computerController.findById(idComputer).checkTotalPrice();
@@ -155,34 +160,18 @@ public class ComputerView {
                     sum = 0;
                 }
             }
-            for (int i = 0; i < phanDu; i++) {
-                System.out.println(totalRevenueIMPL.findAll().get(k));
-                sum += totalRevenueController.showListRevenue().get(k).getPrice();
-                k++;
+            if (phanDu > 0) {
+                for (int i = 0; i < phanDu; i++) {
+                    System.out.println(totalRevenueIMPL.findAll().get(k));
+                    sum += totalRevenueController.showListRevenue().get(k).getPrice();
+                    k++;
+                }
+                System.out.println("BILL " + count + " = " + sum + "VND");
+                System.out.println("----------------------");
             }
-            System.out.println("BILL " + count + " = " + sum + "VND");
-            System.out.println("----------------------");
             total += sum;
             System.out.println("TOTAL BILL = " + total + "VND");
 
-            System.out.println("=========================================");
-            System.out.println("ENTER ANY KEY TO CONTINUE OR ENTER QUIT TO COMEBACK MENU: ");
-            String backMenu = scanner.nextLine();
-            if (backMenu.equalsIgnoreCase("quit")) {
-                new Main(username, id, roleNameUser);
-            }
-        }
-    }
-
-    public void checkTotalBill(String username, int id, Role.RoleNameUser roleNameUser) {
-        double totalBill = 0;
-        TotalRevenueController totalRevenueController = new TotalRevenueController();
-        while (true) {
-            for (int i = 0; i < totalRevenueIMPL.findAll().size(); i++) {
-                System.out.println("check total price =====>> " + totalRevenueIMPL.findAll().get(i));
-                totalBill += totalRevenueController.showListRevenue().get(i).getPrice();
-            }
-            System.out.println("TOTAL REVENUE = " + totalBill + "VND");
             System.out.println("=========================================");
             System.out.println("ENTER ANY KEY TO CONTINUE OR ENTER QUIT TO COMEBACK MENU: ");
             String backMenu = scanner.nextLine();
@@ -217,7 +206,7 @@ public class ComputerView {
                 }
             }
             if (countIdComputer == 0) {
-                System.out.println("NO ID IN THE LIST");
+                System.err.println("NO ID IN THE LIST");
                 new ComputerView().addServiceComputer(username, id, roleNameUser);
             } else if (computerController.findById(idComputer).getStatus()) {
                 String checkAnswer = "";
@@ -243,7 +232,7 @@ public class ComputerView {
                         if (checkAnswer2.equalsIgnoreCase("no")) {
                             new Main(username, id, roleNameUser);
                         } else {
-                            System.out.println("SOMETHING WRONG!! TRY AGAIN!!");
+                            System.err.println("SOMETHING WRONG!! TRY AGAIN!!");
                         }
                     } while (!checkAnswer2.equalsIgnoreCase("yes") || !checkAnswer2.equalsIgnoreCase("no"));
                 } else {
@@ -275,14 +264,14 @@ public class ComputerView {
                             if (checkAnswer.equalsIgnoreCase("no")) {
                                 new Main(username, id, roleNameUser);
                             } else {
-                                System.out.println("SOMETHING WRONG!! TRY AGAIN!!");
-                                System.out.println("============================");
+                                System.err.println("SOMETHING WRONG!! TRY AGAIN!!");
+                                System.err.println("=============================");
                             }
                         } while (!checkAnswer.equalsIgnoreCase("yes") || !checkAnswer.equalsIgnoreCase("no"));
                     }
                 }
             } else {
-                System.out.println("COMPUTER IS OFF!! PLEASE TURN ON COMPUTER!!");
+                System.err.println("COMPUTER IS OFF!! PLEASE TURN ON COMPUTER!!");
                 new ComputerView().onOffComputer(username, id, roleNameUser);
             }
             System.out.println("=========================================");
