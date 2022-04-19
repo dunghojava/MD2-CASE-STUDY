@@ -81,12 +81,7 @@ public class Main {
             case 6:
                 new ComputerView().addServiceComputer(username, id, role);
             case 7:
-                if (role.equals(Role.RoleNameUser.ADMIN)) {
-                    new ComputerView().checkBill(username, id, role);
-                } else {
-                    System.err.println("CHƯA LÊN ADMIN THÌ CHƯA CÓ TUỔI!!");
-                    new Main(username, id, role);
-                }
+                new ComputerView().checkBill(username, id, role);
             case 8:
                 if (role.equals(Role.RoleNameUser.ADMIN)) {
                     new UserView().accountManagement(username, id, role);
@@ -106,7 +101,12 @@ public class Main {
             case 11:
                 new FoodView().showListFood(username, id, role);
             case 12:
-                new ComputerView().newCheckTotalBill(username, id, role);
+                if (role.equals(Role.RoleNameUser.ADMIN)) {
+                    new ComputerView().newCheckTotalBill(username, id, role);
+                } else {
+                    System.err.println("CHƯA LÊN ADMIN THÌ CHƯA CÓ TUỔI!!");
+                    new Main(username, id, role);
+                }
             case 0:
                 new Main();
         }

@@ -7,7 +7,6 @@ public class Computer implements Serializable {
     private int id;
     private String name;
     private Boolean status = false;
-    private int time;
     private List<Food> foodList = null;
     private Role.RoleNameComputer role = Role.RoleNameComputer.NORMAL;
     private double startTime = 0;
@@ -20,15 +19,6 @@ public class Computer implements Serializable {
         this.id = id;
         this.name = name;
         this.role = role;
-    }
-
-    public Computer(int id, String name, Boolean status, int time, List<Food> foodList, Role.RoleNameComputer role) {
-        this.name = name;
-        this.status = status;
-        this.time = time;
-        this.foodList = foodList;
-        this.role = role;
-        this.id = id;
     }
 
     public double getEndTime() {
@@ -70,14 +60,6 @@ public class Computer implements Serializable {
 
     }
 
-    public int getTime() {
-        return time;
-    }
-
-    public void setTime(int time) {
-        this.time = time;
-    }
-
     public List<Food> getFoodList() {
         return foodList;
     }
@@ -95,11 +77,7 @@ public class Computer implements Serializable {
     }
 
     public double checkPriceTime() {
-        if (this.startTime == 0 || this.endTime == 0) {
-            return 0;
-        } else {
-            return 0;
-        }
+        return 0;
     }
 
     public void setStartTime(double startTime) {

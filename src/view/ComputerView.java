@@ -109,12 +109,12 @@ public class ComputerView {
                     System.out.println("SERVICES BILL " + computerController.findById(idComputer).getName().toUpperCase() + " : " + bill + "VND");
                     computerController.findById(idComputer).setStatus(false);
                     time = (computerController.findById(idComputer).getEndTime() - computerController.findById(idComputer).getStartTime()) / Math.pow(10, 9);
-                    totalPriceComputer = Math.ceil(bill + time * computerController.findById(idComputer).getRole().getRoleNameComputer() / 3600);
+                    totalPriceComputer = Math.ceil(bill + time * computerController.findById(idComputer).getRole().getRoleNameComputer() / 3600 * roleNameUser.getRoleNameUser());
                     System.out.println("TOTAL BILL = " + totalPriceComputer + "VND");
                     System.out.println("USED TIME: " + Math.ceil(time) + "s ");
                 } else if (computerController.findById(idComputer).getEndTime() > computerController.findById(idComputer).getStartTime()) {
                     time = (computerController.findById(idComputer).getEndTime() - computerController.findById(idComputer).getStartTime()) / Math.pow(10, 9);
-                    totalPriceComputer = Math.ceil(bill + time * computerController.findById(idComputer).getRole().getRoleNameComputer() / 3600);
+                    totalPriceComputer = Math.ceil(bill + time * computerController.findById(idComputer).getRole().getRoleNameComputer() / 3600 * roleNameUser.getRoleNameUser());
                     System.out.println("TOTAL BILL = " + totalPriceComputer + "VND");
                 }
                 computerController.findById(idComputer).setFoodList(null);
@@ -135,25 +135,35 @@ public class ComputerView {
     public void newCheckTotalBill(String username, int id, Role.RoleNameUser roleNameUser) {
         while (true) {
             TotalRevenueController totalRevenueController = new TotalRevenueController();
-            try {
-                double sum = 0;
-                double totalPrice = 0;
-                int count = 0;
-                for (int i = 0; i < totalRevenueIMPL.findAll().size(); i += 3) {
-                    for (int j = i; j < i + 3; j++) {
-                        System.out.println(totalRevenueIMPL.findAll().get(j));
-                        sum += totalRevenueController.showListRevenue().get(j).getPrice();
+            double sum = 0;
+            double total = 0;
+            int phanNguyen = totalRevenueIMPL.findAll().size() / 3;
+            int phanDu = totalRevenueIMPL.findAll().size() % 3;
+            int k = 0;
+            int count = 1;
+            if (phanNguyen > 0) {
+                for (int i = 0; i < phanNguyen; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        System.out.println(totalRevenueIMPL.findAll().get(k));
+                        sum += totalRevenueController.showListRevenue().get(k).getPrice();
+                        k++;
                     }
+                    System.out.println("BILL " + count + " = " + sum + "VND");
+                    System.out.println("----------------------");
                     count++;
-                    System.out.println("check sum is " + count + ": " + sum);
-                    System.out.println("-------");
-                    totalPrice += sum;
+                    total += sum;
                     sum = 0;
                 }
-                System.out.println("check total price =====>> " + totalPrice);
-            } catch (IndexOutOfBoundsException e) {
-                System.out.print("");
             }
+            for (int i = 0; i < phanDu; i++) {
+                System.out.println(totalRevenueIMPL.findAll().get(k));
+                sum += totalRevenueController.showListRevenue().get(k).getPrice();
+                k++;
+            }
+            System.out.println("BILL " + count + " = " + sum + "VND");
+            System.out.println("----------------------");
+            total += sum;
+            System.out.println("TOTAL BILL = " + total + "VND");
 
             System.out.println("=========================================");
             System.out.println("ENTER ANY KEY TO CONTINUE OR ENTER QUIT TO COMEBACK MENU: ");
