@@ -4,6 +4,7 @@ import controller.UserController;
 import model.Role;
 import model.User;
 import service.user.UserServiceIMPL;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -74,7 +75,7 @@ public class UserView {
         }
     }
 
-    public void rechagreAccount(String username, int id, Role.RoleNameUser roleNameUser) {
+    public void rechargeAccount(String username, int id, Role.RoleNameUser roleNameUser) {
         System.err.println("CHƯA LÀM!!!");
         new Main();
     }
@@ -93,7 +94,7 @@ public class UserView {
                     new UserView().changePassword(username, id, roleNameUser);
                     break;
                 case "2":
-                    new UserView().rechagreAccount(username, id, roleNameUser);
+                    new UserView().rechargeAccount(username, id, roleNameUser);
                     break;
             }
         }

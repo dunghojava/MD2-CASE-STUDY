@@ -93,7 +93,6 @@ public class ComputerView {
         }
     }
 
-
     public void checkBill(String username, int id, Role.RoleNameUser roleNameUser) {
         while (true) {
             System.out.println("ENTER COMPUTER'S ID YOU WANT TO CHECK");
@@ -133,6 +132,38 @@ public class ComputerView {
         }
     }
 
+    public void newCheckTotalBill(String username, int id, Role.RoleNameUser roleNameUser) {
+        while (true) {
+            TotalRevenueController totalRevenueController = new TotalRevenueController();
+            try {
+                double sum = 0;
+                double totalPrice = 0;
+                int count = 0;
+                for (int i = 0; i < totalRevenueIMPL.findAll().size(); i += 3) {
+                    for (int j = i; j < i + 3; j++) {
+                        System.out.println(totalRevenueIMPL.findAll().get(j));
+                        sum += totalRevenueController.showListRevenue().get(j).getPrice();
+                    }
+                    count++;
+                    System.out.println("check sum is " + count + ": " + sum);
+                    System.out.println("-------");
+                    totalPrice += sum;
+                    sum = 0;
+                }
+                System.out.println("check total price =====>> " + totalPrice);
+            } catch (IndexOutOfBoundsException e) {
+                System.out.print("");
+            }
+
+            System.out.println("=========================================");
+            System.out.println("ENTER ANY KEY TO CONTINUE OR ENTER QUIT TO COMEBACK MENU: ");
+            String backMenu = scanner.nextLine();
+            if (backMenu.equalsIgnoreCase("quit")) {
+                new Main(username, id, roleNameUser);
+            }
+        }
+    }
+
     public void checkTotalBill(String username, int id, Role.RoleNameUser roleNameUser) {
         double totalBill = 0;
         TotalRevenueController totalRevenueController = new TotalRevenueController();
@@ -141,8 +172,7 @@ public class ComputerView {
                 System.out.println("check total price =====>> " + totalRevenueIMPL.findAll().get(i));
                 totalBill += totalRevenueController.showListRevenue().get(i).getPrice();
             }
-            System.out.println("TOTAL REVENUE = " + totalBill);
-
+            System.out.println("TOTAL REVENUE = " + totalBill + "VND");
             System.out.println("=========================================");
             System.out.println("ENTER ANY KEY TO CONTINUE OR ENTER QUIT TO COMEBACK MENU: ");
             String backMenu = scanner.nextLine();
@@ -178,7 +208,7 @@ public class ComputerView {
             }
             if (countIdComputer == 0) {
                 System.out.println("NO ID IN THE LIST");
-                new Main(username, id, roleNameUser);
+                new ComputerView().addServiceComputer(username, id, roleNameUser);
             } else if (computerController.findById(idComputer).getStatus()) {
                 String checkAnswer = "";
                 String checkAnswer2 = "";
@@ -193,7 +223,12 @@ public class ComputerView {
                         System.out.println("| YES / NO |");
                         checkAnswer2 = scanner.nextLine();
                         if (checkAnswer2.equalsIgnoreCase("yes")) {
-                            new FoodView().formCreateFood(username, id, roleNameUser);
+                            if (roleNameUser.equals(Role.RoleNameUser.ADMIN)) {
+                                new FoodView().formCreateFood(username, id, roleNameUser);
+                            } else {
+                                System.err.println("CHƯA LÊN ADMIN THÌ CHƯA CÓ TUỔI!!");
+                                new Main(username, id, roleNameUser);
+                            }
                         }
                         if (checkAnswer2.equalsIgnoreCase("no")) {
                             new Main(username, id, roleNameUser);

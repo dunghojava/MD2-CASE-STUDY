@@ -5,7 +5,7 @@ import model.Revenue;
 
 import java.util.List;
 
-public class TotalRevenueIMPL implements ITotalRevenue{
+public class TotalRevenueIMPL implements ITotalRevenue {
 
     public static String PATH = "D:\\CODEGYM-C0222I1\\Module 2\\Java Project\\CASE_STUDY\\src\\data\\totalRevenue.txt";
     public static List<Revenue> revenues = new ConfigReadAndWriteFile<Revenue>().readFromFile(PATH);

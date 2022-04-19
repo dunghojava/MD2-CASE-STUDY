@@ -5,7 +5,7 @@ import model.User;
 
 import java.util.List;
 
-public class UserServiceIMPL implements IUserService{
+public class UserServiceIMPL implements IUserService {
 
     public static String PATH = "D:\\CODEGYM-C0222I1\\Module 2\\Java Project\\CASE_STUDY\\src\\data\\user.txt";
     public static List<User> users = new ConfigReadAndWriteFile<User>().readFromFile(PATH);
@@ -26,7 +26,7 @@ public class UserServiceIMPL implements IUserService{
     @Override
     public User findById(int id) {
         for (int i = 0; i < users.size(); i++) {
-            if (id== users.get(i).getId()) {
+            if (id == users.get(i).getId()) {
                 return users.get(i);
             }
         }

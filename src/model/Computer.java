@@ -44,7 +44,6 @@ public class Computer implements Serializable {
     }
 
 
-
     public void setName(String name) {
         this.name = name;
     }
@@ -116,7 +115,7 @@ public class Computer implements Serializable {
         if (this.foodList == null && checkPriceTime() == 0) {
             return 0;
         } else {
-            for (Food foodListPrice: foodList ) {
+            for (Food foodListPrice : foodList) {
                 sum += foodListPrice.getPrice();
             }
             return sum + checkPriceTime();

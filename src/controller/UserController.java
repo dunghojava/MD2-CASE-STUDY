@@ -8,16 +8,16 @@ import java.util.List;
 public class UserController {
     UserServiceIMPL userServiceIMPL = new UserServiceIMPL();
 
-    public List<User> showListUser(){
+    public List<User> showListUser() {
         return userServiceIMPL.findAll();
     }
 
     public User changePassword(int id, String password) {
         userServiceIMPL.findById(id).setPassword(password);
-        return  userServiceIMPL.findById(id);
+        return userServiceIMPL.findById(id);
     }
 
-    public void createUser(User user){
+    public void createUser(User user) {
         userServiceIMPL.save(user);
     }
 

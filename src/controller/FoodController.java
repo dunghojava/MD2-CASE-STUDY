@@ -8,11 +8,11 @@ import java.util.List;
 public class FoodController {
     FoodServiceIMPL foodServiceIMPL = new FoodServiceIMPL();
 
-    public List<Food> showListFood(){
+    public List<Food> showListFood() {
         return foodServiceIMPL.findAll();
     }
 
-    public void createFood(Food food){
+    public void createFood(Food food) {
         foodServiceIMPL.save(food);
     }
 
