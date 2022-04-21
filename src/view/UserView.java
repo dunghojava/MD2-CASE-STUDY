@@ -163,6 +163,7 @@ public class UserView {
                 double time = 0;
                 double totalPrice = 0;
                 if (computerController.findById(idComputer).getStatus() == true && userController.findById(id).getTienNap() != 0) {
+                    computerController.findById(idComputer).setStatus(false);
                     time = Math.ceil((computerController.findById(idComputer).getEndTime() - computerController.findById(idComputer).getStartTime()) / Math.pow(10, 9));
                     double priceComputer = Math.ceil(time * computerController.findById(idComputer).getRole().getRoleNameComputer() * userController.findById(id).getRole().getRoleNameUser() * userController.findById(id).getRoleRankUser().getRoleRankUser() / 3600);
                     totalPrice = Math.ceil(billService + priceComputer);
@@ -181,15 +182,16 @@ public class UserView {
                     switch (choose) {
                         case 1:
                             if (userController.findById(id).getTienNap() >= totalPrice) {
-                                userController.findById(id).setTienNap(Math.ceil(userController.findById(id).getTienNap() - totalPrice));
+                                double ceil = userController.findById(id).getTienNap() - totalPrice;
+                                userController.findById(id).setTienNap(ceil);
                                 userController.showListUser();
-                                computerController.findById(idComputer).setStatus(false);
                                 computerController.findById(idComputer).setFoodList(null);
                                 computerController.showListComputer();
                                 System.out.println("--------------------------------");
                                 System.out.println("BẠN ĐÃ THANH TOÁN THÀNH CÔNG!!!");
                                 System.out.println("SỐ TIỀN CÒN LẠI TRONG TÀI KHOẢN LÀ: " + userController.findById(id).getTienNap() + "vnđ");
                                 System.out.println("--------------------------------");
+                                new UserView().setRoleRankUser(id);
                             } else if (userController.findById(id).getTienNap() < totalPrice) {
                                 System.out.println("--------------------------------");
                                 System.err.println("TÀI KHOẢN CỦA BẠN KHÔNG ĐỦ ĐỂ THANH TOÁN!! VUI LÒNG NẠP THÊM!!");
@@ -221,6 +223,18 @@ public class UserView {
             System.err.println("CHƯA NẠP TIỀN ĐÃ ĐÒI THANH TOÁN ˣ‿ˣ");
             System.err.println("--------------------------------------");
             new UserView().checkTotalBill(username, id, roleNameUser);
+        }
+    }
+
+    public void setRoleRankUser(int id) {
+        if (userController.findById(id).getTienNap()<100000) {
+            userController.findById(id).setRoleRankUser(Role.RoleRankUser.SILVER);
+        } else if (userController.findById(id).getTienNap()<200000) {
+            userController.findById(id).setRoleRankUser(Role.RoleRankUser.GOLD);
+        } else if (userController.findById(id).getTienNap()<500000) {
+            userController.findById(id).setRoleRankUser(Role.RoleRankUser.EMERALD);
+        } else if (userController.findById(id).getTienNap()>=500000){
+            userController.findById(id).setRoleRankUser(Role.RoleRankUser.DIAMOND);
         }
     }
 
@@ -311,6 +325,7 @@ public class UserView {
             System.out.println("| ROLE | : | " + roleNameUser + " |");
             System.out.println("1. CHANGE PASSWORD");
             System.out.println("2. VÀI THỨ LINH TINH");
+            System.out.println("3. THÔNG TIN TÀI KHOẢN");
             System.out.println("0. BACK");
             String choose = scanner.nextLine();
             switch (choose) {
@@ -320,6 +335,17 @@ public class UserView {
                 case "2":
                     new UserView().vaiThuLinhTinh(username, id, roleNameUser);
                     break;
+                case "3":
+                    while (true) {
+                        System.out.println("---------- THÔNG TIN ----------");
+                        System.out.println(userController.findById(id).toString());
+                        System.out.println("-------------------------------");
+                        System.out.println("ENTER QUIT TO BACK MENU");
+                        String back = scanner.nextLine();
+                        if (back.equalsIgnoreCase("quit")) {
+                            new UserView().accountManagement(username, id, roleNameUser);
+                        }
+                    }
                 case "0":
                     new Main(username, id, roleNameUser);
             }
