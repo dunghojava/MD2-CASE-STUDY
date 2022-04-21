@@ -1,8 +1,11 @@
 package view;
 
+import controller.ComputerController;
 import controller.UserController;
+import model.Revenue;
 import model.Role;
 import model.User;
+import service.totalRevenue.TotalRevenueIMPL;
 import service.user.UserServiceIMPL;
 
 import java.util.List;
@@ -12,6 +15,9 @@ public class UserView {
     Scanner scanner = new Scanner(System.in);
     UserController userController = new UserController();
     List<User> userList = UserServiceIMPL.users;
+    TotalRevenueIMPL totalRevenueIMPL = new TotalRevenueIMPL();
+    ComputerController computerController = new ComputerController();
+    UserServiceIMPL userServiceIMPL = new UserServiceIMPL();
 
     public void formCreateUser() {
         while (true) {
@@ -75,27 +81,247 @@ public class UserView {
         }
     }
 
-    public void rechargeAccount(String username, int id, Role.RoleNameUser roleNameUser) {
-        System.err.println("CHƯA LÀM!!!");
-        new Main();
+    public void vaiThuLinhTinh(String username, int id, Role.RoleNameUser roleNameUser) {
+        while (true) {
+            System.out.println((char) 27 + "[34m");
+            System.out.println("======= | VÀI THỨ LINH TINH | =======");
+            System.out.println("1. NẠP TIỀN");
+            System.out.println("2. KIỂM TRA THỨ HẠNG TÀI KHOẢN");
+            System.out.println("3. ROLE GAME");
+            System.out.println("0. BACK");
+            System.out.println("=========================================");
+            String choose = scanner.nextLine();
+            switch (choose) {
+                case "1":
+                    new UserView().napTien(username, id, roleNameUser);
+                case "2":
+                    new UserView().checkTaiKhoan(username, id, roleNameUser);
+                case "3":
+                    System.out.println((char) 27 + "[35m");
+                    System.out.println("====== SOS ======");
+                    System.out.println(" ĐANG BẢO TRÌ :))");
+                    System.out.println("=================");
+                case "0":
+                    new UserView().accountManagement(username, id, roleNameUser);
+            }
+
+
+            System.out.println((char) 27 + "[39m");
+        }
+    }
+
+    public void checkTaiKhoan(String username, int id, Role.RoleNameUser roleNameUser) {
+        while (true) {
+            System.out.println((char) 27 + "[34m");
+            double tongNap = userController.findById(id).getTienNap();
+            if (tongNap < 100000) {
+                System.out.println((char) 27 + "[39m" + "SỐ TIỀN HIỆN TẠI LÀ: " + tongNap + "vnđ");
+                System.out.println((char) 27 + "[39m" + "-------------------------------");
+                System.out.println((char) 27 + "[39m" + " RANK CÙI BẮP CHỨ CÒN GÌ NỮA!!!");
+                System.out.println((char) 27 + "[39m" + "-------------------------------");
+            } else if (tongNap >= 100000 && tongNap < 200000) {
+                System.out.println((char) 27 + "[33m" + "SỐ TIỀN HIỆN TẠI LÀ: " + tongNap + "vnđ");
+                System.out.println((char) 27 + "[33m" + "-------------------------------");
+                System.out.println((char) 27 + "[33m" + " RANK HIỆN TẠI CỦA BẠN LÀ VÀNG");
+                System.out.println((char) 27 + "[33m" + "-------------------------------");
+            } else if (tongNap >= 200000 && tongNap < 500000) {
+                System.out.println((char) 27 + "[32m" + "SỐ TIỀN HIỆN TẠI LÀ: " + tongNap + "vnđ");
+                System.out.println((char) 27 + "[32m" + "----------------------------------");
+                System.out.println((char) 27 + "[32m" + " RANK HIỆN TẠI CỦA BẠN LÀ LỤC BẢO");
+                System.out.println((char) 27 + "[32m" + "----------------------------------");
+            } else if (tongNap >= 500000) {
+                System.out.println((char) 27 + "[36m" + "SỐ TIỀN HIỆN TẠI LÀ: " + tongNap + "vnđ");
+                System.out.println((char) 27 + "[36m" + "---------------------------------------------------------");
+                System.out.println((char) 27 + "[36m" + "           RANK HIỆN TẠI CỦA BẠN LÀ KIM CƯƠNG");
+                System.out.println((char) 27 + "=== BẠN LÀ 1 TRONG SỐ NHỮNG KHÁCH HÀNG VIP NHẤT Ở ĐÊY!!! ===");
+                System.out.println((char) 27 + "[36m" + "---------------------------------------------------------");
+            }
+            System.out.println("=========================================");
+            System.out.println("ENTER QUIT TO COMEBACK: ");
+            String backMenu = scanner.nextLine();
+            if (backMenu.equalsIgnoreCase("quit")) {
+                new UserView().vaiThuLinhTinh(username, id, roleNameUser);
+            }
+        }
+    }
+
+    public void checkBill(String username, int id, Role.RoleNameUser roleNameUser) {
+        try {
+            System.out.println("ENTER COMPUTER'S ID YOU WANT TO CHECK");
+            int idComputer = 0;
+            try {
+                idComputer = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.err.println("SOMETHING WRONG!! TRY AGAIN!!");
+                checkBill(username, id, roleNameUser);
+            }
+            if (computerController.findById(idComputer) == null) {
+                System.err.println("NO ID IN THE LIST");
+                new Main(username, id, roleNameUser);
+            } else {
+                double billService = Math.ceil(computerController.findById(idComputer).checkTotalPrice());
+                double time = 0;
+                double totalPrice = 0;
+                if (computerController.findById(idComputer).getStatus() == true && userController.findById(id).getTienNap() != 0) {
+                    time = Math.ceil((computerController.findById(idComputer).getEndTime() - computerController.findById(idComputer).getStartTime()) / Math.pow(10, 9));
+                    double priceComputer = Math.ceil(time * computerController.findById(idComputer).getRole().getRoleNameComputer() * userController.findById(id).getRole().getRoleNameUser() * userController.findById(id).getRoleRankUser().getRoleRankUser() / 3600);
+                    totalPrice = Math.ceil(billService + priceComputer);
+                    System.out.println("--------------------------------------");
+                    System.out.println("TIỀN DỊCH VỤ: " + billService + "vnđ");
+                    System.out.println("TIỀN GIỜ CHƠI: " + priceComputer + "vnđ");
+                    System.out.println("THỜI GIAN SỬ DỤNG MÁY: " + time + "s");
+                    System.out.println("TỔNG TIỀN CẦN THANH TOÁN: " + totalPrice + "vnđ");
+                    System.out.println("--------------------------------------");
+                    System.out.println("SỐ TIỀN HIỆN CÓ TRONG TÀI KHOẢN: " + userController.findById(id).getTienNap() + "vnđ");
+                    System.out.println("--------------------------------------");
+                    System.out.println("1. THANH TOÁN");
+                    System.out.println("2. NẠP TIỀN");
+                    System.out.println("0. BACK");
+                    int choose = Integer.parseInt(scanner.nextLine());
+                    switch (choose) {
+                        case 1:
+                            if (userController.findById(id).getTienNap() >= totalPrice) {
+                                userController.findById(id).setTienNap(Math.ceil(userController.findById(id).getTienNap() - totalPrice));
+                                userController.showListUser();
+                                computerController.findById(idComputer).setStatus(false);
+                                computerController.findById(idComputer).setFoodList(null);
+                                computerController.showListComputer();
+                                System.out.println("--------------------------------");
+                                System.out.println("BẠN ĐÃ THANH TOÁN THÀNH CÔNG!!!");
+                                System.out.println("SỐ TIỀN CÒN LẠI TRONG TÀI KHOẢN LÀ: " + userController.findById(id).getTienNap() + "vnđ");
+                                System.out.println("--------------------------------");
+                            } else if (userController.findById(id).getTienNap() < totalPrice) {
+                                System.out.println("--------------------------------");
+                                System.err.println("TÀI KHOẢN CỦA BẠN KHÔNG ĐỦ ĐỂ THANH TOÁN!! VUI LÒNG NẠP THÊM!!");
+                                System.out.println("--------------------------------");
+                            }
+                            break;
+                        case 2:
+                            new UserView().napTien(username, id, roleNameUser);
+                        case 0:
+                            new Main(username, id, roleNameUser);
+                    }
+                } else if (userController.findById(id).getTienNap() == 0) {
+                    System.err.println("TÀI KHOẢN ĐANG TRỐNG TRƠN!! NẠP LẦN ĐẦU ĐI BẠN!!");
+                } else {
+                    System.err.println("SOMETHING WRONG!! TRY AGAIN!!");
+                }
+                String backMenu = "";
+                do {
+                    System.out.println("=========================");
+                    System.out.println("ENTER QUIT TO BACK MENU");
+                    backMenu = scanner.nextLine();
+                    if (backMenu.equalsIgnoreCase("quit")) {
+                        new Main(username, id, roleNameUser);
+                    }
+                } while (!backMenu.equalsIgnoreCase("quit"));
+            }
+        } catch (NullPointerException e) {
+            System.err.println("--------------------------------------");
+            System.err.println("CHƯA NẠP TIỀN ĐÃ ĐÒI THANH TOÁN ˣ‿ˣ");
+            System.err.println("--------------------------------------");
+            new UserView().checkTotalBill(username, id, roleNameUser);
+        }
+    }
+
+    public void napTien(String username, int id, Role.RoleNameUser roleNameUser) {
+        while (true) {
+            System.out.println((char) 27 + "[34m" + "----------------------------------");
+            System.out.println((char) 27 + "[39m" + "RANK CÙI BẮP (SỐ DƯ DƯỚI 100K)");
+            System.out.println((char) 27 + "[33m" + "RANK VÀNG (SỐ DƯ TỪ 100K)");
+            System.out.println((char) 27 + "[32m" + "RANK LỤC BẢO (SỐ DƯ TỪ 200K)");
+            System.out.println((char) 27 + "[36m" + "RANK KIM CƯƠNG (SỐ DƯ TỪ 500K)");
+            System.out.println((char) 27 + "[34m" + "----------------------------------");
+            double tongNap = userController.findById(id).getTienNap();
+            boolean answer = true;
+            do {
+                System.out.println("NHẬP SỐ TIỀN MUỐN NẠP: ");
+                double tienNap = Integer.parseInt(scanner.nextLine());
+                Revenue revenue = new Revenue(tienNap, username);
+                totalRevenueIMPL.save(revenue);
+                tongNap += tienNap;
+                userController.findById(id).setTienNap(tongNap);
+                userController.showListUser();
+                String choose = "";
+                do {
+                    System.out.println("BẠN CÓ MUỐN NẠP THÊM KHÔNG?!");
+                    System.out.println("YES / NO");
+                    choose = scanner.nextLine();
+                    if (choose.equalsIgnoreCase("yes")) {
+                        answer = true;
+                    } else if (choose.equalsIgnoreCase("no")) {
+                        answer = false;
+                    } else {
+                        System.err.println("CÓ GÌ ĐÓ SAI SAI!! VUI LÒNG NHẬP LẠI!!");
+                    }
+                } while (!choose.equalsIgnoreCase("yes") && !choose.equalsIgnoreCase("no"));
+            } while (answer);
+            if (tongNap < 100000) {
+                userController.findById(id).setRoleRankUser(Role.RoleRankUser.SILVER);
+                System.out.println((char) 27 + "[39m" + "-------------------------------");
+                System.out.println((char) 27 + "[39m" + " RANK CÙI BẮP CHỨ CÒN GÌ NỮA!!!");
+                System.out.println((char) 27 + "[39m" + "-------------------------------");
+            } else if (tongNap >= 100000 && tongNap < 200000) {
+                userController.findById(id).setRoleRankUser(Role.RoleRankUser.GOLD);
+                System.out.println((char) 27 + "[33m" + "-------------------------------");
+                System.out.println((char) 27 + "[33m" + " RANK HIỆN TẠI CỦA BẠN LÀ VÀNG");
+                System.out.println((char) 27 + "[33m" + "-------------------------------");
+            } else if (tongNap >= 200000 && tongNap < 500000) {
+                userController.findById(id).setRoleRankUser(Role.RoleRankUser.EMERALD);
+                System.out.println((char) 27 + "[32m" + "----------------------------------");
+                System.out.println((char) 27 + "[32m" + " RANK HIỆN TẠI CỦA BẠN LÀ LỤC BẢO");
+                System.out.println((char) 27 + "[32m" + "----------------------------------");
+            } else if (tongNap >= 500000) {
+                userController.findById(id).setRoleRankUser(Role.RoleRankUser.DIAMOND);
+                System.out.println((char) 27 + "[36m" + "---------------------------------------------------------");
+                System.out.println((char) 27 + "[36m" + "           RANK HIỆN TẠI CỦA BẠN LÀ KIM CƯƠNG");
+                System.out.println((char) 27 + "=== BẠN LÀ 1 TRONG SỐ NHỮNG KHÁCH HÀNG VIP NHẤT Ở ĐÊY!!! ===");
+                System.out.println((char) 27 + "[36m" + "---------------------------------------------------------");
+            }
+            new UserView().vaiThuLinhTinh(username, id, roleNameUser);
+        }
+    }
+
+    public void checkTotalBill(String username, int id, Role.RoleNameUser role) {
+        String answer = "";
+        System.out.println("BẠN MUỐN THANH TOÁN QUA TÀI KHOẢN HAY TIỀN MẶT?!");
+        System.out.println("1. QUA TÀI KHOẢN");
+        System.out.println("2. TIỀN MẶT");
+        System.out.println("0. BACK");
+        do {
+            answer = scanner.nextLine();
+            if (answer.equalsIgnoreCase("1")) {
+                new UserView().checkBill(username, id, role);
+            } else if (answer.equalsIgnoreCase("2")) {
+                new ComputerView().checkBill(username, id, role);
+            } else if (answer.equalsIgnoreCase("0")) {
+                new Main(username, id, role);
+            } else {
+                System.out.println("SOMETHING WRONG!!! TRY AGAIN!!");
+            }
+        } while (!answer.equalsIgnoreCase("1") && !answer.equalsIgnoreCase("2"));
     }
 
     public void accountManagement(String username, int id, Role.RoleNameUser roleNameUser) {
         while (true) {
+            System.out.println((char) 27 + "[39m");
             System.out.println("======== ACCOUNT MANAGEMENT ========");
             System.out.println("| USER_NAME | : | " + username + " |");
             System.out.println("| ID | : | " + id + " |");
             System.out.println("| ROLE | : | " + roleNameUser + " |");
             System.out.println("1. CHANGE PASSWORD");
-            System.out.println("2. RECHARGE ACCOUNT");
+            System.out.println("2. VÀI THỨ LINH TINH");
+            System.out.println("0. BACK");
             String choose = scanner.nextLine();
             switch (choose) {
                 case "1":
                     new UserView().changePassword(username, id, roleNameUser);
                     break;
                 case "2":
-                    new UserView().rechargeAccount(username, id, roleNameUser);
+                    new UserView().vaiThuLinhTinh(username, id, roleNameUser);
                     break;
+                case "0":
+                    new Main(username, id, roleNameUser);
             }
         }
     }

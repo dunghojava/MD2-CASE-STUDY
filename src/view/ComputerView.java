@@ -107,7 +107,7 @@ public class ComputerView {
                 System.err.println("NO ID IN THE LIST");
                 new Main(username, id, roleNameUser);
             } else {
-                Double bill = computerController.findById(idComputer).checkTotalPrice();
+                double bill = computerController.findById(idComputer).checkTotalPrice();
                 double time = 0;
                 double totalPriceComputer = 0;
                 if (computerController.findById(idComputer).getStatus() == true) {
@@ -170,7 +170,7 @@ public class ComputerView {
                 System.out.println("----------------------");
             }
             total += sum;
-            System.out.println("TOTAL BILL = " + total + "VND");
+            System.out.println("TOTAL REVENUE = " + total + "VND");
 
             System.out.println("=========================================");
             System.out.println("ENTER ANY KEY TO CONTINUE OR ENTER QUIT TO COMEBACK MENU: ");

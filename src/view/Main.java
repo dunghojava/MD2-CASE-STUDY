@@ -11,7 +11,7 @@ public class Main {
         String chooseMenu = "";
         boolean check = true;
         while (check) {
-            System.out.println("========= QUÁN NET =========");
+            System.out.println("========= NET CỎ CỦA DŨNG =========");
             System.out.println("1. REGISTER");
             System.out.println("============================");
             System.out.println("2. LOGIN");
@@ -39,7 +39,7 @@ public class Main {
         System.out.println("5. ADD SERVICE |ADMIN|");
         System.out.println("6. ADD SERVICE FOR COMPUTER");
         System.out.println("7. CHECK BILL");
-        System.out.println("8. ACCOUNT MANAGEMENT |ADMIN|");
+        System.out.println("8. ACCOUNT MANAGEMENT");
         System.out.println("9. TURNOVER |ADMIN|");
         System.out.println("10. TURN ON/OFF COMPUTER");
         System.out.println("11. SHOW LIST FOOD");
@@ -80,14 +80,9 @@ public class Main {
             case "6":
                 new ComputerView().addServiceComputer(username, id, role);
             case "7":
-                new ComputerView().checkBill(username, id, role);
+                new UserView().checkTotalBill(username, id, role);
             case "8":
-                if (role.equals(Role.RoleNameUser.ADMIN)) {
-                    new UserView().accountManagement(username, id, role);
-                } else {
-                    System.err.println("CHƯA LÊN ADMIN THÌ CHƯA CÓ TUỔI!!");
-                    new Main(username, id, role);
-                }
+                new UserView().accountManagement(username, id, role);
             case "9":
                 if (role.equals(Role.RoleNameUser.ADMIN)) {
                     new ComputerView().newCheckTotalBill(username, id, role);
@@ -103,6 +98,7 @@ public class Main {
                 new Main();
         }
     }
+
 
     public static void main(String[] args) {
         new Main();

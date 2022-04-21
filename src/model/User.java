@@ -7,7 +7,8 @@ public class User implements Serializable {
     private String username;
     private String password;
     private Role.RoleNameUser role;
-    private double point;
+    private double tienNap = 0;
+    private Role.RoleRankUser roleRankUser;
 
     public User() {
     }
@@ -19,6 +20,14 @@ public class User implements Serializable {
         this.id = id;
     }
 
+    public Role.RoleRankUser getRoleRankUser() {
+        return roleRankUser;
+    }
+
+    public void setRoleRankUser(Role.RoleRankUser roleRankUser) {
+        this.roleRankUser = roleRankUser;
+    }
+
     public int getId() {
         return id;
     }
@@ -27,12 +36,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public double getPoint() {
-        return point;
+    public double getTienNap() {
+        return tienNap;
     }
 
-    public void setPoint(double point) {
-        this.point = point;
+    public void setTienNap(double tienNap) {
+        this.tienNap = tienNap;
     }
 
     public String getUsername() {
@@ -66,6 +75,8 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", point=" + tienNap +
+                ", roleRankUser=" + roleRankUser +
                 '}';
     }
 }
