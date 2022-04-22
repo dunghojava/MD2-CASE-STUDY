@@ -70,6 +70,7 @@ public class FoodView {
                 }
                 Food food = new Food(idFood, nameFood, price);
                 foodController.createFood(food);
+                foodController.showListFood();
                 System.out.println("YOU HAVE CREATE SUCCESSFULLY: " + food);
                 System.out.println("=========================================");
                 System.out.println("ENTER ANY KEY TO CONTINUE CREATE FOOD OR ENTER QUIT TO COMEBACK MENU: ");
