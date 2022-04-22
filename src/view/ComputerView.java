@@ -52,6 +52,7 @@ public class ComputerView {
             }
             Computer computer = new Computer(idComputer, name, roleNameComputer);
             computerController.createComputer(computer);
+            computerController.showListComputer();
             System.out.println("YOU HAVE CREATE SUCCESSFULLY " + computer);
             System.out.println("=========================================");
             System.out.println("ENTER ANY KEY TO CONTINUE CREATE COMPUTER OR ENTER QUIT TO COMEBACK MENU: ");

@@ -12,9 +12,9 @@ public class Main {
         boolean check = true;
         while (check) {
             System.out.println("========= NET CỎ CỦA DŨNG =========");
-            System.out.println("1. REGISTER");
+            System.out.println("1. ĐĂNG KÝ");
             System.out.println("============================");
-            System.out.println("2. LOGIN");
+            System.out.println("2. ĐĂNG NHẬP");
             System.out.println("============================");
             chooseMenu = scanner.nextLine();
             switch (chooseMenu) {
@@ -32,18 +32,18 @@ public class Main {
         System.out.println("| USER_NAME | : | " + username + " |");
         System.out.println("| ID | : | " + id + " |");
         System.out.println("| ROLE | : | " + role + " |");
-        System.out.println("1. SHOW LIST COMPUTER");
-        System.out.println("2. ADD COMPUTER |ADMIN|");
-        System.out.println("3. EDIT INFORMATION COMPUTER |ADMIN|");
-        System.out.println("4. REMOVE COMPUTER |ADMIN|");
-        System.out.println("5. ADD SERVICE |ADMIN|");
-        System.out.println("6. ADD SERVICE FOR COMPUTER");
-        System.out.println("7. CHECK BILL");
-        System.out.println("8. ACCOUNT MANAGEMENT");
-        System.out.println("9. TURNOVER |ADMIN|");
-        System.out.println("10. TURN ON/OFF COMPUTER");
-        System.out.println("11. SHOW LIST FOOD");
-        System.out.println("0. LOGOUT");
+        System.out.println("1. DANH SÁCH COMPUTER");
+        System.out.println("2. THÊM COMPUTER |ADMIN|");
+        System.out.println("3. THAY ĐỔI THÔNG TIN COMPUTER |ADMIN|");
+        System.out.println("4. XÓA COMPUTER |ADMIN|");
+        System.out.println("5. THÊM DỊCH VỤ |ADMIN|");
+        System.out.println("6. THÊM DỊCH VỤ CHO COMPUTER");
+        System.out.println("7. HÓA ĐƠN");
+        System.out.println("8. QUẢN LÝ TÀI KHOẢN");
+        System.out.println("9. DOANH THU |ADMIN|");
+        System.out.println("10. BẬT / TẮT COMPUTER");
+        System.out.println("11. DANH SÁCH DỊCH VỤ");
+        System.out.println("0. ĐĂNG XUẤT");
         System.out.println("===============================");
         String chooseMenu = scanner.nextLine();
         switch (chooseMenu) {
