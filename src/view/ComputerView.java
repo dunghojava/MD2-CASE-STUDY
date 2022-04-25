@@ -30,12 +30,12 @@ public class ComputerView {
             } else {
                 idComputer = computerList.get(computerList.size() - 1).getId() + 1;
             }
-            System.out.println("ENTER THE NAME COMPUTER: ");
+            System.out.println("NHẬP TÊN COMPUTER: ");
             String name = scanner.nextLine();
             boolean checkRole = true;
             Role.RoleNameComputer roleNameComputer = null;
             while (checkRole) {
-                System.out.println("ENTER THE ROLE COMPUTER: ");
+                System.out.println("NHẬP ROLE COMPUTER: ");
                 System.out.println("NORMAL / VIP");
                 System.out.println("==============");
                 String nameRole = scanner.nextLine();
@@ -46,16 +46,16 @@ public class ComputerView {
                     roleNameComputer = Role.RoleNameComputer.VIP;
                     checkRole = false;
                 } else {
-                    System.err.println("PLEASE CHOOSE ROLE FOR COMPUTER");
+                    System.err.println("VUI LÒNG CHỌN ROLE CHO COMPUTER");
                     System.err.println("===============================");
                 }
             }
             Computer computer = new Computer(idComputer, name, roleNameComputer);
             computerController.createComputer(computer);
             computerController.showListComputer();
-            System.out.println("YOU HAVE CREATE SUCCESSFULLY " + computer);
+            System.out.println("BẠN ĐÃ KHỞI TẠO THÀNH CÔNG " + computer);
             System.out.println("=========================================");
-            System.out.println("ENTER ANY KEY TO CONTINUE CREATE COMPUTER OR ENTER QUIT TO COMEBACK MENU: ");
+            System.out.println("NHẬP MỘT KÝ TỰ BẤT KỲ ĐỂ KHỞI TẠO TIẾP HOẶC BẤM QUIT ĐỂ VỀ MENU: ");
             String backMenu = scanner.nextLine();
             if (backMenu.equalsIgnoreCase("quit")) {
                 new Main(username, id, role);
@@ -65,11 +65,11 @@ public class ComputerView {
 
     public void onOffComputer(String username, int id, Role.RoleNameUser roleNameUser) {
         while (true) {
-            System.out.println("ENTER COMPUTER'S ID WANT TO SET STATUS");
+            System.out.println("NHẬP ID CỦA COMPUTER MUỐN BẬT");
             int idComputer = scanner.nextInt();
             scanner.nextLine();
             if (computerController.findById(idComputer) == null) {
-                System.out.println("NO ID IN THE LIST");
+                System.out.println("ID KHÔNG CÓ TRONG LIST");
                 new Main(username, id, roleNameUser);
             } else {
                 String setStatus = "";
@@ -81,12 +81,12 @@ public class ComputerView {
                     } else if (setStatus.equalsIgnoreCase("off") && computerController.findById(idComputer).getStatus() == true) {
                         computerController.findById(idComputer).setStatus(false);
                     } else {
-                        System.err.println("SOMETHING WRONG!! TRY AGAIN!!");
+                        System.err.println("CÓ GÌ ĐÓ SAI SAI!! VUI LÒNG NHẬP LẠI!!");
                     }
                 } while (!setStatus.equalsIgnoreCase("on") && !setStatus.equalsIgnoreCase("off"));
             }
             System.out.println("=========================================");
-            System.out.println("ENTER ANY KEY TO CONTINUE SET STATUS COMPUTER OR ENTER QUIT TO COMEBACK MENU: ");
+            System.out.println("NHẬP MỘT KÝ TỰ BẤT KỲ ĐỂ TIẾP TỤC HOẶC BẤM QUIT ĐỂ VỀ MENU: ");
             String backMenu = scanner.nextLine();
             if (backMenu.equalsIgnoreCase("quit")) {
                 new Main(username, id, roleNameUser);
@@ -96,16 +96,16 @@ public class ComputerView {
 
     public void checkBill(String username, int id, Role.RoleNameUser roleNameUser) {
         while (true) {
-            System.out.println("ENTER COMPUTER'S ID YOU WANT TO CHECK");
+            System.out.println("NHẬP ID MÀ BẠN MUỐN CHECK BILL");
             int idComputer = 0;
             try {
                 idComputer = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
-                System.err.println("SOMETHING WRONG!! TRY AGAIN!!");
+                System.err.println("CÓ GÌ ĐÓ SAI SAI!! VUI LÒNG NHẬP LẠI");
                 checkBill(username, id, roleNameUser);
             }
             if (computerController.findById(idComputer) == null) {
-                System.err.println("NO ID IN THE LIST");
+                System.err.println("ID KHÔNG CÓ TRONG LIST");
                 new Main(username, id, roleNameUser);
             } else {
                 double bill = computerController.findById(idComputer).checkTotalPrice();
@@ -130,7 +130,7 @@ public class ComputerView {
                 totalRevenueIMPL.save(revenue);
             }
             System.out.println("=========================================");
-            System.out.println("ENTER ANY KEY TO CONTINUE CHECK BILL OR ENTER QUIT TO COMEBACK MENU: ");
+            System.out.println("NHẬP MỘT KÝ TỰ BẤT KỲ ĐỂ TIẾP TỤC HOẶC QUIT ĐỂ QUAY LẠI MENU: ");
             String backMenu = scanner.nextLine();
             if (backMenu.equalsIgnoreCase("quit")) {
                 new Main(username, id, roleNameUser);
@@ -174,7 +174,7 @@ public class ComputerView {
             System.out.println("TOTAL REVENUE = " + total + "VND");
 
             System.out.println("=========================================");
-            System.out.println("ENTER ANY KEY TO CONTINUE OR ENTER QUIT TO COMEBACK MENU: ");
+            System.out.println("NHẬP MỘT KÝ TỰ BẤT KỲ ĐỂ TIẾP TỤC HOẶC QUIT ĐỂ QUAY LẠI MENU: ");
             String backMenu = scanner.nextLine();
             if (backMenu.equalsIgnoreCase("quit")) {
                 new Main(username, id, roleNameUser);
@@ -193,7 +193,7 @@ public class ComputerView {
 
     public void addServiceComputer(String username, int id, Role.RoleNameUser roleNameUser) {
         while (true) {
-            System.out.println("ENTER THE ID COMPUTER TO ADD SERVICE");
+            System.out.println("NHẬP ID CHO COMPUTER:");
             int idComputer = scanner.nextInt();
             scanner.nextLine();
             int idValue = 0;
@@ -207,19 +207,19 @@ public class ComputerView {
                 }
             }
             if (countIdComputer == 0) {
-                System.err.println("NO ID IN THE LIST");
+                System.err.println("ID KHÔNG CÓ TRONG DANH SÁCH");
                 new ComputerView().addServiceComputer(username, id, roleNameUser);
             } else if (computerController.findById(idComputer).getStatus()) {
                 String checkAnswer = "";
                 String checkAnswer2 = "";
-                System.out.println("ENTER THE NAME FOOD TO ADD SERVICE TO: " + computerList.get(idValue).toString());
+                System.out.println("NHẬP TÊN MÓN ĂN BẠN MUỐN THÊM CHO MÁY : " + computerList.get(idValue).toString());
                 System.out.println("=================================");
                 String nameAddService = scanner.nextLine();
                 System.out.println("==================");
                 if (foodList.size() == 0) {
-                    System.out.println("CURRENTLY UNAVAILABLE FOOD IN THE LIST");
+                    System.out.println("HIỆN TẠI KHÔNG CÓ ĐỒ ĂN TRONG DANH SÁCH!!");
                     do {
-                        System.out.println("DO YOU WANT TO CREATE A NEW ONE?!");
+                        System.out.println("BẠN CÓ MUỐN THÊM MỚI MÓN ĂN KHÔNG?!");
                         System.out.println("| YES / NO |");
                         checkAnswer2 = scanner.nextLine();
                         if (checkAnswer2.equalsIgnoreCase("yes")) {
@@ -233,7 +233,7 @@ public class ComputerView {
                         if (checkAnswer2.equalsIgnoreCase("no")) {
                             new Main(username, id, roleNameUser);
                         } else {
-                            System.err.println("SOMETHING WRONG!! TRY AGAIN!!");
+                            System.err.println("CÓ GÌ ĐÓ SAI SAI!! VUI LÒNG NHẬP LẠI!!");
                         }
                     } while (!checkAnswer2.equalsIgnoreCase("yes") || !checkAnswer2.equalsIgnoreCase("no"));
                 } else {
@@ -243,20 +243,19 @@ public class ComputerView {
                     }
                     for (int i = 0; i < foodList.size(); i++) {
                         if (nameAddService.equalsIgnoreCase(foodList.get(i).getName())) {
-                            System.out.println("SUCCESSFULLY ADD FOOD TO COMPUTER!!");
+                            System.out.println("THÊM THÀNH CÔNG CHO MÁY");
                             System.out.println("==================");
                             System.out.println(foodList.get(i));
                             System.out.println("==================");
                             foods.add(foodList.get(i));
                             computerController.findById(idComputer).setFoodList(foods);
-                            System.out.println("check COMPUTER add food ===========> " + computerList.get(idValue));
                             count++;
                         }
 
                     }
                     if (count == 0) {
                         do {
-                            System.out.println("THIS ITEM IS NOT IN THE LIST, DO YOU WANT TO CREATE A NEW ONE?!");
+                            System.out.println("MÓN ĂN HIỆN KHÔNG CÓ TRONG DANH SÁCH, BẠN CÓ MUỐN TẠO MỚI KHÔNG?!");
                             System.out.println("| YES / NO |");
                             checkAnswer = scanner.nextLine();
                             if (checkAnswer.equalsIgnoreCase("yes")) {
@@ -265,18 +264,18 @@ public class ComputerView {
                             if (checkAnswer.equalsIgnoreCase("no")) {
                                 new Main(username, id, roleNameUser);
                             } else {
-                                System.err.println("SOMETHING WRONG!! TRY AGAIN!!");
+                                System.err.println("CÓ GÌ ĐÓ SAI SAI!! VUI LÒNG NHẬP LẠI!!");
                                 System.err.println("=============================");
                             }
                         } while (!checkAnswer.equalsIgnoreCase("yes") || !checkAnswer.equalsIgnoreCase("no"));
                     }
                 }
             } else {
-                System.err.println("COMPUTER IS OFF!! PLEASE TURN ON COMPUTER!!");
+                System.err.println("MÁY ĐANG TẮT!! VUI LÒNG BẬT!!");
                 new ComputerView().onOffComputer(username, id, roleNameUser);
             }
             System.out.println("=========================================");
-            System.out.println("ENTER ANY KEY TO CONTINUE ADD SERVICE OR ENTER QUIT TO COMEBACK MENU: ");
+            System.out.println("NHẤN PHÍM BẤT KỲ ĐỂ TIẾP TỤC HOẶC QUIT ĐỂ QUAY LẠI MENU!!");
             System.out.println("============================");
             String backMenu = scanner.nextLine();
             if (backMenu.equalsIgnoreCase("quit")) {
@@ -287,7 +286,7 @@ public class ComputerView {
 
     public void removeComputer(String username, int id, Role.RoleNameUser role) {
         while (true) {
-            System.out.println("== ENTER THE ID TO REMOVE ==");
+            System.out.println("== NHẬP ID COMPUTER BẠN MUỐN XÓA ==");
             int idRemove = scanner.nextInt();
             scanner.nextLine();
             int idValue = 0;
@@ -298,14 +297,14 @@ public class ComputerView {
                 }
             }
             if (idValue == 0) {
-                System.out.println("NO ID IN THE LIST");
+                System.out.println("ID KHÔNG CÓ TRONG DANH SÁCH");
             } else {
-                System.out.println("YOU HAVE SUCCESSFULLY DELETED " + computerList.get(idValue));
+                System.out.println("BẠN ĐÃ XÓA THÀNH CÔNG MÁY " + computerList.get(idValue));
                 computerList.remove(idValue);
                 computerController.showListComputer();
             }
             System.out.println("=========================================");
-            System.out.println("ENTER ANY KEY TO CONTINUE CREATE COMPUTER OR ENTER QUIT TO COMEBACK MENU: ");
+            System.out.println("NHẬP PHÍM BẤT KỲ ĐỂ TIẾP TỤC HOẶC QUIT ĐỂ QUAY LẠI MENU!!");
             String backMenu = scanner.nextLine();
             if (backMenu.equalsIgnoreCase("quit")) {
                 new Main(username, id, role);
@@ -315,23 +314,23 @@ public class ComputerView {
 
     public void changeInformationComputer(String username, int id, Role.RoleNameUser role) {
         while (true) {
-            System.out.println("== ENTER THE ID TO CHANGE ==");
+            System.out.println("== NHẬP ID CỦA COMPUTER ==");
             String nameRole = "";
             Role.RoleNameComputer roleNameComputer = null;
             int idChange = scanner.nextInt();
             scanner.nextLine();
             System.out.println("===============");
             if (computerController.findById(idChange) == null) {
-                System.out.println("NO ID IN THE LIST");
+                System.out.println("ID KHÔNG CÓ TRONG DANH SÁCH");
             } else {
                 Computer oldComputer = new Computer(computerController.findById(idChange).getId(), computerController.findById(idChange).getName(), computerController.findById(idChange).getRole());
                 System.out.println("CHECK OLD COMPUTER =============> " + oldComputer);
-                System.out.println("ENTER THE NAME TO CHANGE: ");
+                System.out.println("NHẬP TÊN MỚI: ");
                 computerController.findById(idChange).setName(scanner.nextLine());
                 scanner.nextLine();
                 boolean changeRole = true;
                 while (changeRole) {
-                    System.out.println("CHANGE ROLE NAME COMPUTER: ");
+                    System.out.println("NHẬP ROLE MỚI: ");
                     System.out.println("NORMAL / VIP");
                     System.out.println("==============");
                     nameRole = scanner.nextLine();
@@ -342,17 +341,17 @@ public class ComputerView {
                         roleNameComputer = Role.RoleNameComputer.VIP;
                         changeRole = false;
                     } else {
-                        System.out.println("PLEASE CHOOSE ROLE FOR COMPUTER");
+                        System.out.println("VUI LÒNG CHỌN ROLE CHO COMPUTER");
                         System.out.println("===============================");
                     }
                 }
                 computerController.findById(idChange).setRole(roleNameComputer);
-                System.out.println("===== SUCCESSFULLY CHANGE ROLE =====");
+                System.out.println("===== THAY ĐỔI ROLE THÀNH CÔNG =====");
                 System.out.println(oldComputer.toString() + " ====> " + computerController.findById(idChange));
                 System.out.println(" ================================= ");
             }
             System.out.println("=========================================");
-            System.out.println("ENTER ANY KEY TO CONTINUE CREATE COMPUTER OR ENTER QUIT TO COMEBACK MENU: ");
+            System.out.println("NHẬP PHÍM BẤT KỲ ĐỂ TIẾP TỤC HOẶC QUIT ĐỂ QUAY LẠI MENU!!");
             String backMenu = scanner.nextLine();
             if (backMenu.equalsIgnoreCase("quit")) {
                 new Main(username, id, role);
